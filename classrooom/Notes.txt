@@ -1,1 +1,0 @@
-This is the sample routing Wroking in the express Model 
