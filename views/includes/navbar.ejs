@@ -1,0 +1,100 @@
+<nav class="wl-navbar">
+  <div class="wl-navbar__inner">
+
+    <!-- Brand -->
+    <a href="/" class="wl-navbar__brand">
+      <div class="wl-navbar__brand-icon"><i class="fa-solid fa-compass"></i></div>
+      Stay<span>Haven</span>
+    </a>
+
+    <!-- Center search (desktop) -->
+    <div class="wl-navbar__search">
+      <input type="text" placeholder="Search destinations..." id="navSearchInput" />
+      <button onclick="handleNavSearch()"><i class="fa-solid fa-magnifying-glass"></i></button>
+    </div>
+
+    <!-- Right nav links -->
+    <div class="wl-navbar__links">
+      <a href="/" class="wl-nav-link">Home</a>
+      <a href="/listings" class="wl-nav-link">Explore</a>
+      <% if (currentUser) { %>
+        <a href="/listings/newlist" class="wl-btn wl-btn--primary" style="margin-left:0.25rem;">
+          <i class="fa-solid fa-plus"></i> List Property
+        </a>
+      <% } %>
+
+      <!-- User dropdown -->
+      <div class="wl-navbar__user" style="margin-left:0.5rem;">
+        <button class="wl-navbar__user-btn" id="userMenuBtn" aria-label="User menu">
+          <div class="wl-navbar__user-avatar">
+            <% if (currentUser) { %>
+              <%= currentUser.username.charAt(0).toUpperCase() %>
+            <% } else { %>
+              <i class="fa-solid fa-user" style="font-size:0.75rem;"></i>
+            <% } %>
+          </div>
+          <% if (currentUser) { %><%= currentUser.username %><% } else { %>Account<% } %>
+          <i class="fa-solid fa-chevron-down" style="font-size:0.65rem; color: var(--slate);"></i>
+        </button>
+        <div class="wl-dropdown" id="userDropdown">
+          <% if (!currentUser) { %>
+            <a href="/signup"><span>Sign Up</span><i class="fa-solid fa-user-plus"></i></a>
+            <a href="/login"><span>Log In</span><i class="fa-solid fa-right-to-bracket"></i></a>
+          <% } else { %>
+            <a href="/profile"><span>My Profile</span><i class="fa-solid fa-user"></i></a>
+            <a href="/listings/newlist"><span>Add Listing</span><i class="fa-solid fa-plus"></i></a>
+            <a href="/logout"><span>Log Out</span><i class="fa-solid fa-right-from-bracket"></i></a>
+          <% } %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile hamburger -->
+    <button class="wl-navbar__hamburger" id="mobileMenuBtn">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+  </div>
+
+  <!-- Mobile menu -->
+  <div class="wl-mobile-menu" id="mobileMenu">
+    <a href="/"><i class="fa-solid fa-house" style="width:18px;"></i> Home</a>
+    <a href="/listings"><i class="fa-solid fa-compass" style="width:18px;"></i> Explore</a>
+    <% if (!currentUser) { %>
+      <a href="/signup"><i class="fa-solid fa-user-plus" style="width:18px;"></i> Sign Up</a>
+      <a href="/login"><i class="fa-solid fa-right-to-bracket" style="width:18px;"></i> Log In</a>
+    <% } else { %>
+      <a href="/listings/newlist"><i class="fa-solid fa-plus" style="width:18px;"></i> Add Listing</a>
+      <a href="/profile"><i class="fa-solid fa-user" style="width:18px;"></i> Profile</a>
+      <a href="/logout"><i class="fa-solid fa-right-from-bracket" style="width:18px;"></i> Log Out</a>
+    <% } %>
+  </div>
+</nav>
+
+<script>
+  // Dropdown
+  const userMenuBtn = document.getElementById('userMenuBtn');
+  const userDropdown = document.getElementById('userDropdown');
+  if (userMenuBtn) {
+    userMenuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      userDropdown.classList.toggle('open');
+    });
+    document.addEventListener('click', () => userDropdown.classList.remove('open'));
+  }
+
+  // Mobile menu
+  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  if (mobileMenuBtn) {
+    mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+  }
+
+  // Nav search
+  function handleNavSearch() {
+    const q = document.getElementById('navSearchInput')?.value?.trim();
+    if (q) window.location.href = '/listings?search=' + encodeURIComponent(q);
+  }
+  document.getElementById('navSearchInput')?.addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleNavSearch();
+  });
+</script>

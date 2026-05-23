@@ -1,0 +1,17 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="wl-error-page">
+  <div style="max-width: 480px; width: 100%;">
+    <div class="wl-error-code"><%= statuscode %></div>
+    <h1 class="wl-error-title">Something went wrong</h1>
+    <p class="wl-error-msg"><%= message %></p>
+    <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+      <a href="/" class="wl-btn wl-btn--primary">
+        <i class="fa-solid fa-house"></i> Back to Home
+      </a>
+      <a href="/listings" class="wl-btn wl-btn--outline">
+        <i class="fa-solid fa-compass"></i> Browse Listings
+      </a>
+    </div>
+  </div>
+</div>

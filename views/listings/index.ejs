@@ -1,0 +1,130 @@
+<% layout("/layouts/boilerplate") %>
+
+<!-- Category Filter Bar -->
+<div class="wl-filter-bar">
+  <div class="wl-filter-bar__inner">
+    <% const filters = [
+      { icon: "fa-fire", label: "Trending" },
+      { icon: "fa-bed", label: "Rooms" },
+      { icon: "fa-city", label: "Cities" },
+      { icon: "fa-mountain", label: "Mountains" },
+      { icon: "fa-chess-rook", label: "Castles" },
+      { icon: "fa-water-ladder", label: "Pools" },
+      { icon: "fa-campground", label: "Camping" },
+      { icon: "fa-tractor", label: "Farms" },
+      { icon: "fa-snowflake", label: "Arctic" },
+      { icon: "fa-umbrella-beach", label: "Beachfront" },
+      { icon: "fa-tree", label: "Nature" }
+    ]; %>
+    <% filters.forEach((f, i) => { %>
+      <button class="wl-filter-pill <%= i === 0 ? 'active' : '' %>" onclick="setFilter(this, '<%= f.label %>')">
+        <i class="fas <%= f.icon %>"></i>
+        <span><%= f.label %></span>
+      </button>
+    <% }) %>
+  </div>
+</div>
+
+<!-- Coupon Row -->
+<div class="wl-coupon-row">
+  <span class="wl-coupon-label"><i class="fa-solid fa-tag" style="color:var(--amber);margin-right:0.3rem;"></i>Promo Code</span>
+  <input class="wl-coupon-input" type="text" id="couponInput" placeholder="Enter code for a discount…" />
+  <button class="wl-btn wl-btn--primary" style="border-radius:var(--radius-sm); padding:0.52rem 1.2rem;" id="applyCouponBtn">
+    <i class="fa-solid fa-check"></i> Apply
+  </button>
+  <span id="couponMsg" style="font-size:0.82rem; color:var(--green); display:none;">
+    <i class="fa-solid fa-circle-check"></i> 10% discount applied!
+  </span>
+</div>
+
+<!-- Listings Section -->
+<div class="wl-listings-section">
+  <div class="wl-section-header">
+    <h2 class="wl-section-title">All Properties</h2>
+    <span class="wl-section-count"><%= allListings.length %> listing<%= allListings.length !== 1 ? 's' : '' %> available</span>
+  </div>
+
+  <% if (allListings.length === 0) { %>
+    <div style="text-align:center; padding:4rem 1rem; color:var(--slate);">
+      <i class="fa-solid fa-house-circle-xmark" style="font-size:3rem; color:var(--amber); opacity:0.4; display:block; margin-bottom:1rem;"></i>
+      <p style="font-size:1.1rem;">No listings yet. Be the first to <a href="/listings/newlist" style="color:var(--amber); font-weight:600;">add one!</a></p>
+    </div>
+  <% } else { %>
+    <div class="wl-grid" id="listingsGrid">
+      <% for (let listing of allListings) { %>
+        <div class="wl-card">
+          <!-- Image -->
+          <div class="wl-card__img-wrap">
+            <a href="/listings/<%= listing._id %>">
+              <img src="<%= listing.image.url %>" alt="<%= listing.title %>" loading="lazy" />
+            </a>
+            <a href="/listings/<%= listing._id %>" class="wl-card__wishlist" title="Save to wishlist">
+              <i class="fa-regular fa-heart"></i>
+            </a>
+          </div>
+
+          <!-- Body -->
+          <div class="wl-card__body">
+            <div class="wl-card__location">
+              <i class="fa-solid fa-location-dot"></i>
+              <%= listing.location %>, <%= listing.country %>
+            </div>
+            <a href="/listings/<%= listing._id %>">
+              <h3 class="wl-card__title"><%= listing.title %></h3>
+            </a>
+            <p class="wl-card__desc"><%= listing.description %></p>
+            <div class="wl-card__footer">
+              <div>
+                <span class="wl-card__price-old original-price-old" style="display:none;"></span>
+                <span class="wl-card__price original-price" data-original="<%= listing.price %>">
+                  ₹ <%= listing.price.toLocaleString("en-IN") %>
+                  <span>/ night</span>
+                </span>
+              </div>
+              <div class="wl-card__rating">
+                <i class="fa-solid fa-star"></i>
+                <span>4.8</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% } %>
+    </div>
+  <% } %>
+</div>
+
+<script>
+  // Category filter (visual only)
+  function setFilter(btn, label) {
+    document.querySelectorAll('.wl-filter-pill').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  // Coupon
+  const applyBtn = document.getElementById('applyCouponBtn');
+  const couponInput = document.getElementById('couponInput');
+  const couponMsg = document.getElementById('couponMsg');
+
+  if (applyBtn) {
+    applyBtn.addEventListener('click', () => {
+      const coupon = couponInput.value.trim();
+      if (!coupon) return;
+
+      document.querySelectorAll('.original-price').forEach(el => {
+        const original = parseFloat(el.getAttribute('data-original'));
+        const discounted = Math.round(original * 0.9);
+        el.innerHTML = `₹ ${discounted.toLocaleString('en-IN')} <span>/ night</span>`;
+        const oldEl = el.previousElementSibling;
+        if (oldEl && oldEl.classList.contains('original-price-old')) {
+          oldEl.textContent = `₹ ${original.toLocaleString('en-IN')}`;
+          oldEl.style.display = 'inline';
+        }
+      });
+      couponMsg.style.display = 'inline-flex';
+      couponMsg.style.alignItems = 'center';
+      couponMsg.style.gap = '0.35rem';
+      applyBtn.disabled = true;
+      applyBtn.style.opacity = '0.6';
+    });
+  }
+</script>

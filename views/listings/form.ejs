@@ -1,0 +1,99 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="wl-form-page">
+  <div class="wl-form-card wl-form-card--wide">
+
+    <!-- Back link -->
+    <a href="/listings" class="wl-show__back" style="margin-bottom:1.5rem; display:inline-flex;">
+      <i class="fa-solid fa-arrow-left"></i> Back to Listings
+    </a>
+
+    <!-- Header -->
+    <div class="wl-form-card__brand">
+      <div class="wl-form-card__brand-icon"><i class="fa-solid fa-plus"></i></div>
+    </div>
+    <h1 class="wl-form-card__title">Add a New Property</h1>
+    <p class="wl-form-card__subtitle">Fill in the details to list your property on StayHaven</p>
+
+    <!-- Form -->
+    <form action="/listings" enctype="multipart/form-data" method="post" class="needs-validation" novalidate id="addListingForm">
+
+      <div class="wl-form-group">
+        <label class="wl-form-label" for="title">Property Title</label>
+        <input type="text" id="title" name="title" class="wl-form-input" placeholder="e.g., Ocean View Resort & Spa" required />
+        <div class="wl-form-invalid">Please provide a title for your property.</div>
+      </div>
+
+      <div class="wl-form-group">
+        <label class="wl-form-label" for="description">Description</label>
+        <textarea id="description" name="description" class="wl-form-textarea" rows="3" placeholder="Describe your property — amenities, atmosphere, nearby attractions…" required></textarea>
+        <div class="wl-form-invalid">Please add a description.</div>
+      </div>
+
+      <div class="wl-form-group">
+        <label class="wl-form-label" for="image">Property Photo</label>
+        <label for="image" class="wl-form-file">
+          <i class="fa-solid fa-cloud-arrow-up" style="font-size:1.5rem; display:block; margin-bottom:0.5rem; color:var(--amber);"></i>
+          <span id="fileLabel">Click to upload or drag & drop</span>
+          <span style="font-size:0.75rem; color:var(--slate-dk); display:block; margin-top:0.25rem;">JPG, PNG, WEBP up to 10MB</span>
+        </label>
+        <input type="file" name="image" id="image" accept="image/*" style="display:none;" onchange="updateFileLabel(this)" />
+      </div>
+
+      <div class="wl-form-row">
+        <div class="wl-form-group">
+          <label class="wl-form-label" for="location">City / Region</label>
+          <input type="text" id="location" name="location" class="wl-form-input" placeholder="e.g., Goa" required />
+          <div class="wl-form-invalid">Location is required.</div>
+        </div>
+        <div class="wl-form-group">
+          <label class="wl-form-label" for="country">Country</label>
+          <input type="text" id="country" name="country" class="wl-form-input" placeholder="e.g., India" required />
+          <div class="wl-form-invalid">Country is required.</div>
+        </div>
+      </div>
+
+      <div class="wl-form-group">
+        <label class="wl-form-label" for="price">Price per Night (₹)</label>
+        <input type="number" id="price" name="price" class="wl-form-input" placeholder="e.g., 4500" min="1" required />
+        <div class="wl-form-invalid">Please enter a valid price.</div>
+      </div>
+
+      <div class="wl-form-group">
+        <label class="wl-form-check">
+          <input type="checkbox" id="termsCheck" required />
+          <span>I agree to WanderLust's <a href="#" style="color:var(--amber);">terms &amp; conditions</a> and confirm this listing is accurate.</span>
+        </label>
+        <div class="wl-form-invalid">You must agree before submitting.</div>
+      </div>
+
+      <button type="submit" class="wl-btn wl-btn--primary wl-btn--full wl-btn--lg">
+        <i class="fa-solid fa-plus"></i> Add Property
+      </button>
+    </form>
+  </div>
+</div>
+
+<script>
+  function updateFileLabel(input) {
+    const label = document.getElementById('fileLabel');
+    if (input.files && input.files.length > 0) {
+      label.textContent = input.files[0].name;
+    }
+  }
+
+  // Bootstrap validation
+  (() => {
+    'use strict';
+    const forms = document.querySelectorAll('.needs-validation');
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  })();
+</script>

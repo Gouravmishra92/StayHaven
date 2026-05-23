@@ -1,0 +1,61 @@
+# Dependencies
+node_modules/
+
+# Environment variables
+.env
+.env.*
+
+
+*.mp4
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory
+coverage/
+
+# Build folders
+dist/
+build/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
+
+# IntelliJ
+.idea/
+
+# Temporary files
+tmp/
+temp/
+
+# Parcel cache
+.cache/
+
+# Next.js
+.next/
+
+# React build
+frontend/build/
+
+# Uploaded files (optional)
+uploads/
+
+# Cloudinary config backups (optional)
+config/cloudinary.js
+
+# Package lock (optional — usually keep this)
+# package-lock.json

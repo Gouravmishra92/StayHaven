@@ -1,0 +1,39 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="wl-form-page">
+  <div class="wl-delete-card">
+
+    <!-- Icon -->
+    <div class="wl-delete-card__icon">
+      <i class="fa-solid fa-triangle-exclamation"></i>
+    </div>
+
+    <h1 class="wl-delete-card__title">Delete Listing?</h1>
+    <p class="wl-delete-card__subtitle">
+      You are about to permanently delete<br>
+      <strong style="color:var(--white);">"<%= listing.title %>"</strong>
+    </p>
+
+    <!-- Image preview -->
+    <div class="wl-delete-card__img">
+      <img src="<%= listing.image.url %>" alt="<%= listing.title %>" />
+    </div>
+
+    <!-- Actions -->
+    <div class="wl-delete-card__actions">
+      <form action="/listings/<%= listing._id %>" method="POST">
+        <button type="submit" class="wl-btn wl-btn--danger wl-btn--full">
+          <i class="fa-solid fa-trash"></i> Yes, Delete Permanently
+        </button>
+      </form>
+      <a href="/listings" class="wl-btn wl-btn--ghost wl-btn--full">
+        <i class="fa-solid fa-xmark"></i> Cancel — Keep This Listing
+      </a>
+    </div>
+
+    <p class="wl-delete-card__warning">
+      <i class="fa-solid fa-circle-info" style="margin-right:0.3rem;"></i>
+      This action cannot be undone.
+    </p>
+  </div>
+</div>

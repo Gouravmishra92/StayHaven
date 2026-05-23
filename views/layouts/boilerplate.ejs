@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StayHaven</title>
+  <link rel="shortcut icon" href="/logo.svg" type="image/x-icon" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Starability -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/starability/starability-minified/starability-all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/starability/starability-minified/starability-slot.min.css" />
+
+  <!-- WanderLust Design System -->
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <%- include("../includes/navbar.ejs") %>
+
+  <!-- Flash Messages -->
+  <div class="wl-flash" id="wl-flash-container">
+    <% if (success && success.length > 0) { %>
+      <div class="wl-flash__item wl-flash__item--success" data-flash>
+        <i class="fa-solid fa-circle-check"></i>
+        <span><%= success[0] %></span>
+        <button class="wl-flash__close" onclick="this.parentElement.remove()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+    <% } %>
+    <% if (error && error.length > 0) { %>
+      <div class="wl-flash__item wl-flash__item--error" data-flash>
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <span><%= error[0] %></span>
+        <button class="wl-flash__close" onclick="this.parentElement.remove()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+    <% } %>
+  </div>
+
+  <main class="wl-main">
+    <%- body %>
+  </main>
+
+  <%- include("../includes/footer.ejs") %>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+  <!-- Global Scripts -->
+  <script>
+    // Auto-dismiss flash messages
+    document.querySelectorAll('[data-flash]').forEach(el => {
+      setTimeout(() => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateX(30px)';
+        el.style.transition = 'opacity 0.4s, transform 0.4s';
+        setTimeout(() => el.remove(), 400);
+      }, 3800);
+    });
+  </script>
+</body>
+</html>

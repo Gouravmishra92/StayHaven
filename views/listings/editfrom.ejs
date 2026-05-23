@@ -1,0 +1,105 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="wl-form-page">
+  <div class="wl-form-card wl-form-card--wide">
+
+    <!-- Back link -->
+    <a href="/listings/<%= listing._id %>" class="wl-show__back" style="margin-bottom:1.5rem; display:inline-flex;">
+      <i class="fa-solid fa-arrow-left"></i> Back to Listing
+    </a>
+
+    <!-- Header -->
+    <div class="wl-form-card__brand">
+      <div class="wl-form-card__brand-icon"><i class="fa-solid fa-pen-to-square"></i></div>
+    </div>
+    <h1 class="wl-form-card__title">Edit Property</h1>
+    <p class="wl-form-card__subtitle" style="word-break:break-all;">ID: <span style="color:var(--amber); font-size:0.78rem;"><%= listing._id %></span></p>
+
+    <!-- Current image preview -->
+    <div class="wl-img-preview">
+      <img src="<%= listing.image?.url || listing.image %>" alt="<%= listing.title %>" id="previewImg" />
+    </div>
+
+    <!-- Form -->
+    <form id="editForm" method="POST" action="/listings/<%= listing._id %>?_method=PUT" enctype="multipart/form-data" novalidate>
+
+      <div class="wl-form-group">
+        <label class="wl-form-label" for="title">Property Title</label>
+        <input type="text" id="title" name="title" class="wl-form-input" value="<%= listing.title %>" required placeholder="Property title" />
+        <div class="wl-form-invalid">Please provide a title.</div>
+      </div>
+
+      <div class="wl-form-group">
+        <label class="wl-form-label" for="description">Description</label>
+        <textarea id="description" name="description" class="wl-form-textarea" rows="3" required placeholder="Description"><%= listing.description %></textarea>
+        <div class="wl-form-invalid">Please add a description.</div>
+      </div>
+
+      <div class="wl-form-group">
+        <label class="wl-form-label" for="price">Price per Night (₹)</label>
+        <input type="text" id="price" name="price" class="wl-form-input" value="<%= listing.price %>" required placeholder="Price" />
+        <div class="wl-form-invalid">Please enter a valid price.</div>
+      </div>
+
+      <div class="wl-form-row">
+        <div class="wl-form-group">
+          <label class="wl-form-label" for="location">City / Region</label>
+          <input type="text" id="location" name="location" class="wl-form-input" value="<%= listing.location %>" required placeholder="Location" />
+          <div class="wl-form-invalid">Location is required.</div>
+        </div>
+        <div class="wl-form-group">
+          <label class="wl-form-label" for="country">Country</label>
+          <input type="text" id="country" name="country" class="wl-form-input" value="<%= listing.country %>" required placeholder="Country" />
+          <div class="wl-form-invalid">Country is required.</div>
+        </div>
+      </div>
+
+      <div class="wl-form-group">
+        <label class="wl-form-label" for="image">Change Photo (optional)</label>
+        <label for="image" class="wl-form-file">
+          <i class="fa-solid fa-cloud-arrow-up" style="font-size:1.3rem; display:block; margin-bottom:0.4rem; color:var(--amber);"></i>
+          <span id="editFileLabel">Click to upload a new image</span>
+          <span style="font-size:0.75rem; color:var(--slate-dk); display:block; margin-top:0.2rem;">Leave blank to keep the current image</span>
+        </label>
+        <input type="file" name="image" id="image" accept="image/*" style="display:none;" onchange="handleImageChange(this)" />
+      </div>
+
+      <!-- Hidden fields to retain old image -->
+      <input type="hidden" name="existingImageUrl" value="<%= listing.image?.url || listing.image %>" />
+      <input type="hidden" name="existingImageFilename" value="<%= listing.image?.filename || '' %>" />
+
+      <button type="submit" class="wl-btn wl-btn--primary wl-btn--full wl-btn--lg" style="margin-top:0.5rem;">
+        <i class="fa-solid fa-floppy-disk"></i> Save Changes
+      </button>
+    </form>
+  </div>
+</div>
+
+<script>
+  function handleImageChange(input) {
+    if (input.files && input.files[0]) {
+      document.getElementById('editFileLabel').textContent = input.files[0].name;
+      const reader = new FileReader();
+      reader.onload = e => { document.getElementById('previewImg').src = e.target.result; };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  const editForm = document.getElementById('editForm');
+  editForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    let valid = true;
+    this.querySelectorAll('[required]').forEach(input => {
+      const errorEl = input.nextElementSibling;
+      if (!input.value.trim()) {
+        input.classList.add('invalid'); input.classList.remove('valid');
+        if (errorEl && errorEl.classList.contains('wl-form-invalid')) errorEl.style.display = 'block';
+        valid = false;
+      } else {
+        input.classList.remove('invalid'); input.classList.add('valid');
+        if (errorEl && errorEl.classList.contains('wl-form-invalid')) errorEl.style.display = 'none';
+      }
+    });
+    if (valid) this.submit();
+  });
+</script>

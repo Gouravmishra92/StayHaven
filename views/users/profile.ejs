@@ -1,0 +1,51 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="wl-profile-page">
+  <div class="wl-profile-card">
+
+    <!-- Back -->
+    <a href="/" class="wl-show__back" style="margin-bottom:1.5rem; justify-content:center;">
+      <i class="fa-solid fa-arrow-left"></i> Back to Home
+    </a>
+
+    <!-- Avatar -->
+    <img src="/profile-user.png" alt="Profile Avatar" class="wl-profile-avatar" />
+
+    <!-- User info -->
+    <h1 class="wl-profile-name">
+      <%= username %>
+      <span class="wl-profile-badge" title="Active"></span>
+    </h1>
+    <p style="font-size:0.78rem; color:var(--amber); font-weight:600; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.35rem;">Verified Traveller</p>
+    <p class="wl-profile-email">
+      <i class="fa-solid fa-envelope" style="margin-right:0.35rem; color:var(--amber);"></i>
+      <%= email %>
+    </p>
+
+    <hr class="wl-profile-divider" />
+
+    <!-- Stats row -->
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; margin-bottom:1.75rem; text-align:center;">
+      <div>
+        <div style="font-family:'Playfair Display',serif; font-size:1.4rem; color:var(--amber);">0</div>
+        <div style="font-size:0.75rem; color:var(--slate);">Listings</div>
+      </div>
+      <div>
+        <div style="font-family:'Playfair Display',serif; font-size:1.4rem; color:var(--amber);">0</div>
+        <div style="font-size:0.75rem; color:var(--slate);">Reviews</div>
+      </div>
+      <div>
+        <div style="font-family:'Playfair Display',serif; font-size:1.4rem; color:var(--amber);">0</div>
+        <div style="font-size:0.75rem; color:var(--slate);">Stays</div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <a href="/listings/newlist" class="wl-btn wl-btn--primary wl-btn--full" style="border-radius:var(--radius-md); margin-bottom:0.75rem;">
+      <i class="fa-solid fa-plus"></i> Add a Listing
+    </a>
+    <a href="/logout" class="wl-btn wl-btn--ghost wl-btn--full" style="border-radius:var(--radius-md);">
+      <i class="fa-solid fa-right-from-bracket"></i> Log Out
+    </a>
+  </div>
+</div>

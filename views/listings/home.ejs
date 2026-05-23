@@ -1,0 +1,103 @@
+<% layout("/layouts/boilerplate") %>
+
+<!-- Hero Section -->
+<section class="wl-hero">
+  <!-- Background video -->
+  <video autoplay loop muted playsinline class="wl-hero__video" src="/travel.mp4"></video>
+  <div class="wl-hero__overlay"></div>
+
+  <div class="wl-hero__content">
+    <div class="wl-fade-up">
+      <div class="wl-hero__badge">
+        <i class="fa-solid fa-star"></i> #1 Travel Listing Platform in India
+      </div>
+    </div>
+
+    <h1 class="wl-hero__title wl-fade-up wl-fade-up-delay-1">
+      Discover <em>Extraordinary</em><br>Places to Stay
+    </h1>
+
+    <p class="wl-hero__subtitle wl-fade-up wl-fade-up-delay-2">
+      From serene mountain retreats to vibrant city escapes — find the perfect stay for every adventure.
+    </p>
+
+    <!-- Hero search bar -->
+    <div class="wl-hero__search wl-fade-up wl-fade-up-delay-2">
+      <div class="wl-hero__search-field">
+        <label>Where</label>
+        <input type="text" placeholder="City or destination" id="heroWhere" />
+      </div>
+      <div class="wl-hero__search-field">
+        <label>Category</label>
+        <input type="text" placeholder="Beach, Mountain…" id="heroCategory" />
+      </div>
+      <button class="wl-hero__search-btn" onclick="heroSearch()">
+        <i class="fa-solid fa-magnifying-glass"></i> Search
+      </button>
+    </div>
+
+    <div class="wl-hero__ctas wl-fade-up wl-fade-up-delay-3">
+      <a href="/listings" class="wl-btn wl-btn--primary wl-btn--lg">
+        <i class="fa-solid fa-compass"></i> Explore Listings
+      </a>
+      <a href="/listings/newlist" class="wl-btn wl-btn--outline wl-btn--lg">
+        <i class="fa-solid fa-plus"></i> Add a Listing
+      </a>
+    </div>
+  </div>
+
+  <!-- Stats (desktop)
+  <div class="wl-hero__stats">
+    <div class="wl-hero__stat">
+      <span class="wl-hero__stat-num">500+</span>
+      <span class="wl-hero__stat-label">Properties</span>
+    </div>
+    <div class="wl-hero__stat">
+      <span class="wl-hero__stat-num">50+</span>
+      <span class="wl-hero__stat-label">Cities</span>
+    </div>
+    <div class="wl-hero__stat">
+      <span class="wl-hero__stat-num">4.9★</span>
+      <span class="wl-hero__stat-label">Avg Rating</span>
+    </div>
+  </div> -->
+</section>
+
+<!-- Why StayHaven section -->
+<section style="padding: 5rem 1.5rem; background: var(--navy-mid);">
+  <div class="wl-container">
+    <h2 style="font-size:2.1rem; text-align:center; margin-bottom:0.6rem;">Why <span class="wl-text-amber">StayHaven</span>?</h2>
+    <p style="text-align:center; color:var(--slate); margin-bottom:3rem; max-width:480px; margin-left:auto; margin-right:auto;">Everything you need for your perfect stay, in one place.</p>
+
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap:1.5rem;">
+      <% const features = [
+        { icon: "fa-shield-halved", title: "Secure Bookings", desc: "Verified listings with secure payment processing and buyer protection." },
+        { icon: "fa-star", title: "Curated Quality", desc: "Every listing is reviewed and rated by real travellers like you." },
+        { icon: "fa-headset", title: "24/7 Support", desc: "Our team is always on hand to help you, wherever you are." },
+        { icon: "fa-earth-asia", title: "Global Reach", desc: "Explore properties across cities, mountains, beaches, and beyond." }
+      ]; %>
+      <% features.forEach(f => { %>
+        <div style="background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius-lg); padding:1.75rem; transition:transform 0.28s, border-color 0.28s;" onmouseenter="this.style.transform='translateY(-4px)'; this.style.borderColor='rgba(245,158,11,0.3)'" onmouseleave="this.style.transform=''; this.style.borderColor=''">
+          <div style="width:48px;height:48px;background:rgba(245,158,11,0.12);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:var(--amber);margin-bottom:1rem;">
+            <i class="fa-solid <%= f.icon %>"></i>
+          </div>
+          <h3 style="font-size:1.05rem; margin-bottom:0.5rem;"><%= f.title %></h3>
+          <p style="font-size:0.85rem; color:var(--slate); line-height:1.6;"><%= f.desc %></p>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<script>
+  function heroSearch() {
+    const where = document.getElementById('heroWhere').value.trim();
+    const cat = document.getElementById('heroCategory').value.trim();
+    const q = where || cat;
+    if (q) window.location.href = '/listings?search=' + encodeURIComponent(q);
+    else window.location.href = '/listings';
+  }
+  ['heroWhere','heroCategory'].forEach(id => {
+    document.getElementById(id)?.addEventListener('keydown', e => { if (e.key==='Enter') heroSearch(); });
+  });
+</script>
